@@ -152,6 +152,7 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Login failed');
 
+      localStorage.setItem("userEmail", data.user.email);
       localStorage.setItem('token', data.token);
       alert('Login successful!');
       window.location.href = 'account-dashboard.html';
@@ -183,6 +184,7 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Registration failed');
 
+      localStorage.setItem("userEmail", data.user.email);
       localStorage.setItem('token', data.token);
       alert('Registration successful!');
       window.location.href = 'account-dashboard.html';

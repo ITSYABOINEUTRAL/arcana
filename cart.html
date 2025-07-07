@@ -86,7 +86,7 @@
           <p>Total</p>
           <p class="Total">$0.00</p>
         </div>
-        <button class="btn ml-auto">Proceed To Checkout</button>
+        <button id="checkout-btn" class="btn">Proceed To Checkout</button>
       </div>
     </div>
   </div>
@@ -144,6 +144,72 @@
     </div>
     <script src="script.js" defer></script>
     <script src="cart.js" defer></script>
+    <script>
+document.getElementById("checkout-btn").addEventListener("click", async () => {
+  const token = localStorage.getItem("token");
+  const userEmail = localStorage.getItem("userEmail");
+
+  if (!token || !userEmail) {
+    alert("Please sign in to continue.");
+    return window.location.href = "account.html";
+  }
+
+  try {
+    const res = await fetch("http://localhost:5000/api/auth/profile", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    const user = await res.json();
+
+    const hasAddress = Array.isArray(user.addresses) && user.addresses.length > 0;
+    const hasPhone = user.phone && user.phone.trim() !== "";
+
+    if (!hasAddress || !hasPhone) {
+      alert("⚠️ Please go to your account dashboard to save your shipping address and phone number before checkout.");
+      // Set a flag to return to cart later
+      localStorage.setItem("returnAfterSettings", "cart.html");
+      return window.location.href = "edit-settings.html";
+    }
+
+    // Continue to checkout
+    const totalText = document.querySelector(".Total")?.innerText?.replace(/[^\d.]/g, "") || "0";
+    const totalUSD = parseFloat(totalText);
+
+    if (!totalUSD) {
+      alert("Cart is empty or invalid amount.");
+      return;
+    }
+
+    const amountInKobo = Math.round(totalUSD * 1547.30 * 1); // USD to NGN to Kobo
+
+    const payRes = await fetch("http://localhost:5000/api/paystack/initialize", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: userEmail,
+        amount: amountInKobo
+      })
+    });
+
+
+    const data = await payRes.json();
+    if (data.status && data.data.authorization_url) {
+      window.location.href = data.data.authorization_url;
+    } else {
+      alert("Failed to initialize payment.");
+    }
+
+  } catch (err) {
+    console.error("Checkout error:", err);
+    alert("An error occurred. Please try again.");
+  }
+});
+</script>
+
     <style>
       #cart-container {
        overflow-x: auto;
@@ -171,7 +237,7 @@
       }
       #cart-container table thead td:nth-child(2),
       #cart-container table thead td:nth-child(3) {
-        width: 200px;
+        width: 210px;
       }
       #cart-container table thead td:nth-child(4),
       #cart-container table thead td:nth-child(5),

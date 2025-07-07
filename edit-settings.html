@@ -158,9 +158,15 @@ async function updateSettings() {
     if (!res.ok) {
       throw new Error(data.message || "Failed to update profile.");
     }
-
     alert("Profile updated successfully!");
-    window.location.href = "account-dashboard.html";
+    
+  const returnTo = localStorage.getItem("returnAfterSettings");
+if (returnTo) {
+  localStorage.removeItem("returnAfterSettings");
+  window.location.href = returnTo;  // goes back to cart.html
+} else {
+  window.location.href = "account-dashboard.html";  // default
+}
   } catch (err) {
     alert(err.message);
   }
@@ -203,7 +209,6 @@ async function changePassword() {
   }
 }
 </script>
-
 
 
     <style>
