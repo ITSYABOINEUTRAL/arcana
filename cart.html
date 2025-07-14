@@ -182,7 +182,7 @@ document.getElementById("checkout-btn").addEventListener("click", async () => {
       return;
     }
 
-    const amountInKobo = Math.round(totalUSD * 1547.30 * 1); // USD to NGN to Kobo
+    const amountInKobo = Math.round(totalUSD * 1547.30 * 0.01); // USD to NGN to Kobo
 
     const payRes = await fetch("http://localhost:5000/api/paystack/initialize", {
       method: "POST",
