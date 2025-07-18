@@ -1,6 +1,12 @@
+// === cart.js (UPDATED) ===
+let subtotalUSD = 0;
+let totalUSD = 0;
+
 document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
-  if (!token) {
+  const userEmail = localStorage.getItem('userEmail');
+
+  if (!token || !userEmail) {
     alert("You must be logged in to access your cart.");
     window.location.href = "account.html";
     return;
@@ -48,14 +54,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   function calculateAndDisplayTotals() {
     const rate = currencyRates[currentCurrency];
-    let subtotalUSD = 0;
+    subtotalUSD = 0;
 
     cartData.forEach(item => {
       subtotalUSD += item.price * item.quantity;
     });
 
     const shippingConverted = shippingCost * rate;
-    const totalUSD = subtotalUSD + shippingCost;
+    totalUSD = subtotalUSD + shippingCost;
     const subtotalConverted = subtotalUSD * rate;
     const totalConverted = totalUSD * rate;
 
@@ -176,4 +182,82 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   await fetchAddress();
   await fetchCart();
+
+  document.getElementById("checkout-btn").addEventListener("click", async () => {
+  const token = localStorage.getItem("token");
+  const userEmail = localStorage.getItem("userEmail");
+
+  if (!token || !userEmail) {
+    alert("Please sign in to continue.");
+    return window.location.href = "account.html";
+  }
+
+    try {
+      const res = await fetch(`${API_BASE}/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+
+      const user = await res.json();
+      const hasAddress = Array.isArray(user.addresses) && user.addresses.length > 0;
+      const hasPhone = user.phone && user.phone.trim() !== "";
+
+      if (!hasAddress || !hasPhone) {
+        alert("⚠️ Please go to your account dashboard to save your shipping address and phone number before checkout.");
+        localStorage.setItem("returnAfterSettings", "cart.html");
+        return window.location.href = "edit-settings.html";
+      }
+
+      const address = user.addresses[0];
+      const amountInKobo = Math.round(totalUSD * 1547.30 * 100); // 1 USD = 1547.30 NGN => x100 = Kobo
+      const reference = `ARC${Date.now()}`;
+
+      const orderRes = await fetch(`${API_BASE}/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          products: cartData.map(i => ({
+            productId: i.product._id,
+            title: i.product.name,
+            image: i.product.image,
+            size: i.size,
+            quantity: i.quantity,
+            price: i.price
+          })),
+          shippingAddress: address,
+          phoneNumber: user.phone,
+          totalPrice: totalUSD,
+          reference
+        })
+      });
+
+      const orderData = await orderRes.json();
+
+      const payRes = await fetch(`${API_BASE}/paystack/initialize`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          email: userEmail,
+          amount: amountInKobo,
+          reference
+        })
+      });
+
+      const data = await payRes.json();
+      if (data.data && data.data.authorization_url) {
+        window.location.href = data.data.authorization_url;
+      } else {
+        alert("Failed to initialize payment.");
+      }
+    } catch (err) {
+      console.error("Checkout error:", err);
+      alert("An error occurred. Please try again.");
+    }
+  });
 });

@@ -49,7 +49,7 @@ fetch(`${API_BASE}/user/orders`, {
     } else {
       data.forEach(order => {
         const li = document.createElement("li");
-        li.textContent = `#${order._id.slice(-6).toUpperCase()} - ${order.status}`;
+        li.textContent = `#${order.orderNumber} - ${order.status}`;
         list.appendChild(li);
       });
     }
