@@ -126,6 +126,7 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
       return;
     }
 
+
     const productId = btn.dataset.id;
     const quantity = parseInt(document.getElementById('quantity').value) || 1;
     const size = document.getElementById('size').value;

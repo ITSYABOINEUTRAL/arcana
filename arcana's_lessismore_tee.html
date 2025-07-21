@@ -60,7 +60,7 @@
             <input type="number" id="quantity" value="1" min="1">
             <button class="add-to-cart-btn" data-id="685f70a3888bb0fa6219110a">Add to Cart</button>
             <br>
-            <button class="btn" data-id="685f6f00888bb0fa62191108">Pre-Order Now</button>
+            <button class="btn" data-id="685f70a3888bb0fa6219110a">Pre-Order Now</button>
             <h3>Product Details</h3>
             <br>
             <p>Elevate your style with our Arcana's Less is More Tee. This tee features a unique design that blends modern aesthetics with classic appeal, making it perfect for any casual occasion. The Arcana's Less is More Tee is crafted from a substantial 6.0 oz. per sq. yd. fabric constructed from 100% premium cotton for ultimate comfort. This classic fit provides unmatched comfort with each wear. Featuring a turtle-neck collar and available in a range of sizes, it offers it all in the ultimate head-turning package.</p>
@@ -159,6 +159,104 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
   });
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  const preOrderBtn = document.querySelector('.btn[data-id]');
+  if (!preOrderBtn || !token) return;
+
+  try {
+    const userRes = await fetch('http://localhost:5000/api/auth/profile', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const user = await userRes.json();
+
+    const isNigeria = user.addresses[0]?.country?.toLowerCase().includes("nigeria");
+    const shippingFee = isNigeria ? 5 : 20;  // ← make sure this is 5 not 10
+    
+
+    preOrderBtn.addEventListener('click', async () => {
+      const userEmail = localStorage.getItem('userEmail');
+      if (!userEmail) {
+        alert('Please log in to continue.');
+        return (window.location.href = 'account.html');
+      }
+
+      const productId = preOrderBtn.dataset.id;
+      const size = document.getElementById('size').value;
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+
+      if (!size) {
+        alert('Please select a size.');
+        return;
+      }
+
+      const hasAddress = Array.isArray(user.addresses) && user.addresses.length > 0;
+      const hasPhone = user.phone && user.phone.trim() !== "";
+
+      if (!hasAddress || !hasPhone) {
+        alert("⚠️ Please save your shipping address and phone number before checkout.");
+        localStorage.setItem("returnAfterSettings", window.location.pathname);
+        return (window.location.href = 'edit-settings.html');
+      }
+
+      const productRes = await fetch(`http://localhost:5000/api/products/${productId}`);
+      if (!productRes.ok) throw new Error("Product not found");
+      const product = await productRes.json();
+
+      const price = product.price;
+      const totalUSD = price * quantity;
+      const finalTotal = totalUSD + shippingFee;
+      const amountInKobo = Math.round(finalTotal * 1547.30 * 100);
+      const reference = `ARC${Date.now()}`;
+
+      const orderRes = await fetch('http://localhost:5000/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          products: [{
+            productId,
+            title: product.name,
+            image: product.image,
+            size,
+            quantity,
+            price
+          }],
+          shippingAddress: user.addresses[0],
+          phoneNumber: user.phone,
+          totalPrice: totalUSD,
+          shippingFee,
+          reference
+        })
+      });
+
+      const payRes = await fetch('http://localhost:5000/api/paystack/initialize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: userEmail,
+          amount: amountInKobo,
+          reference
+        })
+      });
+
+      const payData = await payRes.json();
+      if (payData.data && payData.data.authorization_url) {
+        window.location.href = payData.data.authorization_url;
+      } else {
+        alert("Payment initialization failed.");
+      }
+    });
+  } catch (err) {
+    console.error("Pre-order error:", err);
+    alert("Something went wrong. Please try again.");
+  }
+});
+</script>
+
 
 </body>
 </html>

@@ -46,11 +46,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       const isNigeria = addresses.some(addr =>
         addr.country?.toLowerCase().includes('nigeria')
       );
-      shippingCost = isNigeria ? 10 : 20;
+      shippingCost = isNigeria ? 5 : 20;
+      
     } catch {
       shippingCost = 20;
     }
   }
+  let shippingFee = shippingCost;
 
   function calculateAndDisplayTotals() {
     const rate = currencyRates[currentCurrency];
@@ -210,7 +212,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
 
       const address = user.addresses[0];
-      const amountInKobo = Math.round(totalUSD * 1547.30 * 100); // 1 USD = 1547.30 NGN => x100 = Kobo
+      const amountInKobo = Math.round(fullTotalUSD * 1547.30 * 100);
       const reference = `ARC${Date.now()}`;
 
       const orderRes = await fetch(`${API_BASE}/orders`, {
@@ -230,7 +232,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           })),
           shippingAddress: address,
           phoneNumber: user.phone,
-          totalPrice: totalUSD,
+          totalPrice: subtotalUSD,
+          shippingFee: shippingCost,
           reference
         })
       });

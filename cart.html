@@ -66,8 +66,8 @@
       <div>
         <h5>COUPON</h5>
         <p>Enter your coupon code if you have one.</p>
-        <input class="coupon" type="text" placeholder="Enter coupon code">
-        <button class="btn">Apply Coupon</button>
+        <input id="coupon-input" class="coupon" type="text" placeholder="Enter coupon code">
+        <button id="apply-coupon-btn" class="btn">Apply Coupon</button>
       </div>
     </div>
     <div class="total col-lg-6 col-md-6 col-12">
@@ -144,6 +144,15 @@
     </div>
     <script src="script.js" defer></script>
     <script src="cart.js" defer></script>
+    <script>
+        document.getElementById('apply-coupon-btn').addEventListener('click', function() {
+          const validCoupons = ['DISCOUNT10', 'SAVE20']; // Example valid codes
+          const input = document.getElementById('coupon-input').value.trim();
+          if (!validCoupons.includes(input)) {
+        alert('Invalid coupon code');
+          }
+        });
+      </script>
     <style>
       #cart-container {
        overflow-x: auto;

@@ -56,13 +56,24 @@
 
             <h2>Refund Process</h2>
             <p>Once we receive your returned item, we will inspect it and notify you of the approval or rejection of your refund. If approved, your refund will be processed within 10-15 business days.</p>
-            <form onsubmit="return validateForm()">
-              <label for="order-id">Order ID:</label>
-              <input type="text" id="order-id" required><br>
-              <label for="reason">Reason for return:</label><br>
-              <textarea id="reason" required></textarea><br>
-              <button type="submit">Submit Request</button>
-            </form>
+            <form id="return-form">
+  <label for="order-id">Order ID:</label>
+  <input type="text" id="order-id" required><br>
+
+  <label for="type">Type:</label>
+  <select id="type" required>
+    <option value="Return">Return</option>
+    <option value="Exchange">Exchange</option>
+  </select><br>
+
+
+  <label for="reason">Reason:</label><br>
+  <textarea id="reason" required></textarea><br>
+
+  <button type="submit">Submit Request</button>
+  <div id="return-message" style="margin-top:15px; font-weight:500;"></div>
+</form>
+
         </section>
     </div>
    <br>   <br>    <br>     <br>
@@ -117,26 +128,39 @@
     <script src="other-script.js" defer></script>
     
   <script>
-    const validOrderIds = ['ARC123456', 'ARC234567', 'ARC345678']; // example list
+document.getElementById("return-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
 
-    function validateForm() {
-      const orderId = document.getElementById('order-id').value.trim();
-      const reason = document.getElementById('reason').value.trim();
+  const orderId = document.getElementById("order-id").value.trim();
+  const reason = document.getElementById("reason").value.trim();
+  const type = document.getElementById("type").value;
+  const messageBox = document.getElementById("return-message");
 
-      if (!orderId || !reason) {
-        alert('Please fill out all fields.');
-        return false;
-      }
+  messageBox.innerHTML = "Submitting your request...";
 
-      if (!validOrderIds.includes(orderId)) {
-        alert('Invalid Order ID. Please check and try again.');
-        return false;
-      }
+  try {
+    const res = await fetch("http://localhost:5000/api/orders/return-request", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderId, reason, type })
+    });
 
-      alert('Return request submitted. We will contact you shortly.');
-      return true;
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Request failed");
     }
-  </script>
+
+    messageBox.style.color = "green";
+    messageBox.innerHTML = `✅ ${data.message}`;
+    document.getElementById("return-form").reset();
+  } catch (err) {
+    messageBox.style.color = "red";
+    messageBox.innerHTML = `❌ ${err.message}`;
+  }
+});
+</script>
+
     <style>
         * {
   margin: 0;

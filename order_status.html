@@ -40,6 +40,7 @@
         <p>If you have any questions or need assistance, feel free to reach out to us.</p>
         <p>Email: <a href="mailto:arcanashopng@gmail.com">arcanashopng@gmail.com</a></p>
     </div>
+    </div>
     <!------ footer section ------>
     <div class="footer">
         <div class="container">
@@ -88,24 +89,95 @@
 
     </div>
     <script src="other-script.js" defer></script>
-    <script>
-  const trackForm = document.querySelector("form");
-  const orderStatusDiv = document.getElementById("order-status");
 
-  trackForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const orderId = trackForm.querySelector("input").value.trim();
 
-    // Dummy logic — you can replace with real Firebase integration later
-    if (orderId.toLowerCase() === "arc123") {
-      orderStatusDiv.textContent = "Your order is on the way! Estimated delivery: 3 days.";
-      orderStatusDiv.style.color = "#fff";
-    } else {
-      orderStatusDiv.textContent = "Order not found. Please check your Order ID.";
-      orderStatusDiv.style.color = "#fff";
+<script>
+document.querySelector("form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  const input = this.querySelector("input");
+  const orderId = input.value.trim();
+  const statusDiv = document.getElementById("order-status");
+  statusDiv.innerHTML = "<p>Loading...</p>";
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/orders/${orderId}`);
+
+    if (res.status === 404) {
+      throw new Error("not-found");
     }
-  });
+
+    const order = await res.json();
+
+    if (order.status !== "Confirmed") {
+      throw new Error("not-confirmed");
+    }
+
+    // Determine delivery ETA based on country
+    const country = order.shippingAddress.country?.toLowerCase() || "";
+    const isNigerian = country.includes("nigeria");
+    const eta = isNigerian
+      ? "📦 Estimated delivery: 10–15 business days"
+      : "📦 Estimated delivery: 2–3 weeks";
+
+    let productsHTML = order.products.map(p => `
+      <div class="product">
+        <img src="${p.image}" alt="${p.title}" style="width:100px;height:auto;margin-right:10px">
+        <div>
+          <p><strong>${p.title}</strong> (${p.size})</p>
+          <p>Qty: ${p.quantity} — $${p.price}</p>
+        </div>
+      </div>
+    `).join("");
+
+    statusDiv.innerHTML = `
+      <div class="order-summary">
+        <h4>Order ID: <span style="color:#b7804f; text-align:left">${order.orderNumber}</span></h4>
+        <h4>Status: <span style="color:#b7804f; text-align:left">${order.status}</span></h4>
+        <h4>Delivery Stage: <span style="color:#b7804f; text-align:left">${order.deliveryStage || 'Reviewing'}</span></h4>
+        <h4>Order Date: <p style="color: #333">${new Date(order.createdAt).toLocaleDateString()}</p></h4>
+
+        <h4>Shipping Address</h4>
+        <p>${order.shippingAddress.street}, ${order.shippingAddress.city}, ${order.shippingAddress.state}, ${order.shippingAddress.country}</p>
+
+        <h4>Phone Number</h4>
+        <p>${order.phoneNumber}</p>
+
+        <h4>Product Total</h4>
+        <p>$${order.products.reduce((sum, p) => sum + p.price * p.quantity, 0).toFixed(2)}</p>
+
+        <h4>Shipping Fee</h4>
+        <p>$${(order.shippingFee || 0).toFixed(2)}</p>
+
+        <h4>Total Paid</h4>
+        <p><strong>$${order.totalPrice.toFixed(2)}</strong></p>
+
+        <h4>Products</h4>
+        <div>${productsHTML}</div>
+
+        <h4 style="margin-top:20px; color:green;">${eta}</h4>
+      </div>
+    `;
+
+    // Clear the input field
+    input.value = "";
+  } catch (err) {
+    let message = "Something went wrong. Please try again.";
+    if (err.message === "not-found") {
+      message = "❌ Order not found. Please check your Order ID.";
+    } else if (err.message === "not-confirmed") {
+      message = "⚠️ This order is not confirmed yet. Please complete payment before tracking.";
+    }
+
+    statusDiv.innerHTML = `<p style="color:red; font-weight:500">${message}</p>`;
+  }
+});
 </script>
+<style>
+  .order-summary { background: #fff; padding: 25px; border-radius: 10px; box-shadow: 0 0 5px rgba(0,0,0,0.1); max-width: 700px; margin: 20px auto; max-width: 600px; }
+  .order-summary h3, .order-summary h4 { color: #333; margin-top: 15px; }
+  .order-summary p { margin: 5px 0; }
+  .product { display: flex; align-items: center; margin: 10px 0; }
+</style>
 <style>
     /* General Reset */
 * {
@@ -143,6 +215,7 @@ form {
   padding: 25px;
   border-radius: 10px;
   margin: 20px auto;
+  width: 100%;
   max-width: 600px;
   box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
@@ -220,6 +293,12 @@ span {
     gap: 10px;
   }
 
+  .order-summary { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); max-width: 700px; margin: 20px auto; }
+  .order-summary h3, .order-summary h4 { color: #333; margin-top: 15px; }
+  .order-summary p { margin: 5px 0; }
+  .product { display: flex; align-items: center; margin: 10px 0; }
+
+
   nav ul {
         position: absolute;
         top: 120px;
@@ -248,6 +327,11 @@ span {
     flex-direction: column;
     gap: 10px;
   }
+
+  .order-summary { background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 5px rgba(0,0,0,0.1); max-width: 700px; margin: 20px auto; }
+  .order-summary h3, .order-summary h4 { color: #333; margin-top: 15px; }
+  .order-summary p { margin: 5px 0; }
+  .product { display: flex; align-items: center; margin: 10px 0; }
 
   .row {
     flex-direction: column;

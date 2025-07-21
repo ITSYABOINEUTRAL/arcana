@@ -40,6 +40,7 @@
         <div class="row row-2">
             <h2>All Products</h2>
             <select name="sort" id="sort">
+                <option value="default">Default Sorting</option>
                 <option value="name_asc">Sort by Name: A to Z</option>
                 <option value="name_desc">Sort by Name: Z to A</option>
                 <option value="price_low">Sort by Price: Low to High</option>
@@ -189,5 +190,109 @@
 
     </div>
     <script src="script.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const API_URL = "http://localhost:5000/api/products";
+  const productRow = document.querySelector(".product-grid .row");
+  const sortSelect = document.getElementById("sort");
+
+  const currencyRates = {
+    USD: 1,
+    EUR: 0.8666,
+    GBP: 0.7375,
+    NGN: 1547.30,
+  };
+
+  const currencySymbols = {
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    NGN: "₦",
+  };
+
+  const currencySelector = document.getElementById("currency");
+  let currentCurrency = currencySelector.value;
+
+  currencySelector.addEventListener("change", () => {
+    currentCurrency = currencySelector.value;
+    fetchAndRenderProducts(sortSelect.value);
+  });
+
+  sortSelect.addEventListener("change", () => {
+    fetchAndRenderProducts(sortSelect.value);
+  });
+
+  function getStaticProductPage(name) {
+  const nameMap = {
+    "Arcana's Less is More Tee": "arcana's_lessismore_tee.html",
+    "Arcana's Drop 00 Jersey": "arcana-drop00-jersey.html",
+    "Arcana's Drop 00 Sweatpants": "arcana's-drop00-sweatpants.html",
+    "Arcana's Drop 00": "arcana-drop00.html"
+  };
+
+  return nameMap[name] || "#";
+}
+
+  async function fetchAndRenderProducts(sortValue) {
+    try {
+      const res = await fetch(API_URL);
+      const products = await res.json();
+
+      let sortedProducts = [...products];
+
+      switch (sortValue) {
+        case "name_asc":
+          sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case "name_desc":
+          sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        case "price_low":
+          sortedProducts.sort((a, b) => a.price - b.price);
+          break;
+        case "price_high":
+          sortedProducts.sort((a, b) => b.price - a.price);
+          break;
+      }
+
+      productRow.innerHTML = "";
+
+      sortedProducts.forEach((product) => {
+        const convertedPrice = (product.price * currencyRates[currentCurrency]).toFixed(2);
+        const comingSoonProducts = [
+          "Arcana's Drop 00 Jersey",
+          "Arcana's Drop 00 Sweatpants",
+          "Arcana's Drop 00"
+        ];
+
+        const isComingSoon = comingSoonProducts.includes(product.name);
+
+        const productHTML = `
+        <div class="col-4">
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        ${isComingSoon ? "<p>(Coming Soon)</p>" : ""}
+        <div class="product-price" data-usd="${product.price}">
+        <p>${currencySymbols[currentCurrency]}${convertedPrice}</p>
+        </div>
+        <div class="rating">
+        <span>★★★★★</span>
+        </div>
+        <a href="${getStaticProductPage(product.name)}" class="btn">View Details</a>
+        </div>
+        `;
+
+        productRow.insertAdjacentHTML("beforeend", productHTML);
+      });
+
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+    }
+  }
+
+  fetchAndRenderProducts(sortSelect.value);
+});
+</script>
+
 </body>
 </html>
