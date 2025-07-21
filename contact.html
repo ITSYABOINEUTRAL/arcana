@@ -118,7 +118,7 @@
     data.enquiry = formData.get("Enquiry Reason");
 
     try {
-      const res = await fetch("http://localhost:5000/api/contact", {
+      const res = await fetch("https://arcana-backend-z46k.onrender.com/api/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

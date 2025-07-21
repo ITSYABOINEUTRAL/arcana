@@ -136,7 +136,7 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/cart', {
+      const res = await fetch('https://arcana-backend-z46k.onrender.com/api/cart', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

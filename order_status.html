@@ -100,7 +100,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
   statusDiv.innerHTML = "<p>Loading...</p>";
 
   try {
-    const res = await fetch(`http://localhost:5000/api/orders/${orderId}`);
+    const res = await fetch(`https://arcana-backend-z46k.onrender.com/api/orders/${orderId}`);
 
     if (res.status === 404) {
       throw new Error("not-found");

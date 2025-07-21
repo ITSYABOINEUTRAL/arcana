@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  const API_BASE = "http://localhost:5000/api";
+  const API_BASE = "https://arcana-backend-z46k.onrender.com/api";
   const cartContainer = document.querySelector('#cart-container tbody');
   const subtotalEl = document.querySelector(".subtotal");
   const shippingEl = document.querySelector(".shipping");
