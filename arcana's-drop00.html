@@ -46,7 +46,7 @@
         <div class="col-2">
             <p>Home / Products / Arcana's Drop 00</p>
             <h1>Men's Two-Piece Set</h1>
-            <h4 class="product-price" data-usd="0">$0.00</h4>
+            <h4 class="product-price" data-usd="0.00">$0.00</h4>
             <select name="size" id="size">
                 <option value="" disabled selected>Select Size</option>
                 <option value="S">S</option>
@@ -56,12 +56,14 @@
                 <option value="XXL">XXL</option>
                 <option value="XXXL">XXXL</option>
             </select>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="quantity" value="1" min="1">
+            <button class="add-to-cart-btn" data-id="6879baaee3bd9faf4953ac9f">Add to Cart</button>
             <br>
+            <button class="btn" data-id="6879baaee3bd9faf4953ac9f">Pre-Order Now</button>
             <h3>Product Details</h3>
-            <p>(Coming Soon)</p>
             <br>
-            <p>Introducing the Arcana's Drop 00, a perfect blend of style and comfort. This Set is designed for those who appreciate quality and unique design. Made from high-quality materials, it features a classic fit that ensures comfort throughout the day. The Set is perfect for casual outings or as part of your everyday wardrobe.</p>
-            <p>Elevate your style with our Arcana's Drop 00. This Set features a unique design that blends modern aesthetics with classic appeal, making it perfect for any casual occasion. The Arcana's Drop 00 is crafted from a substantial 6.0 oz. per sq. yd. fabric constructed from 100% premium cotton for ultimate comfort. This classic fit provides unmatched comfort with each wear. Featuring the Arcana's Drop 00 Jersey and the Arcana's Drop 00 Sweatpants and available in a range of sizes, it offers it all in the ultimate head-turning package.</p>
+            <p>Elevate your style with our Drop 00. This Set features a unique design that blends modern aesthetics with classic appeal, making it perfect for any casual occasion. The Arcana's Drop 00 are crafted from a substantial 6.0 oz. per sq. yd. fabric constructed from 100% premium cotton for ultimate comfort. This classic fit provides unmatched comfort with each wear. Featuring the Arcana's Drop 00 Jersey and the Arcan's Drop 00 Sweatpants and available in a range of sizes, it offers it all in the ultimate head-turning package.</p>
         </div>
     </div>
     </div>
@@ -157,6 +159,104 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
   });
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const token = localStorage.getItem('token');
+  const preOrderBtn = document.querySelector('.btn[data-id]');
+  if (!preOrderBtn || !token) return;
+
+  try {
+    const userRes = await fetch('https://arcana-backend-z46k.onrender.com/api/auth/profile', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    const user = await userRes.json();
+
+    const isNigeria = user.addresses[0]?.country?.toLowerCase().includes("nigeria");
+    const shippingFee = isNigeria ? 5 : 20;  // ← make sure this is 5 not 10
+    
+
+    preOrderBtn.addEventListener('click', async () => {
+      const userEmail = localStorage.getItem('userEmail');
+      if (!userEmail) {
+        alert('Please log in to continue.');
+        return (window.location.href = 'account.html');
+      }
+
+      const productId = preOrderBtn.dataset.id;
+      const size = document.getElementById('size').value;
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+
+      if (!size) {
+        alert('Please select a size.');
+        return;
+      }
+
+      const hasAddress = Array.isArray(user.addresses) && user.addresses.length > 0;
+      const hasPhone = user.phone && user.phone.trim() !== "";
+
+      if (!hasAddress || !hasPhone) {
+        alert("⚠️ Please save your shipping address and phone number before checkout.");
+        localStorage.setItem("returnAfterSettings", window.location.pathname);
+        return (window.location.href = 'edit-settings.html');
+      }
+
+      const productRes = await fetch(`https://arcana-backend-z46k.onrender.com/api/products/${productId}`);
+      if (!productRes.ok) throw new Error("Product not found");
+      const product = await productRes.json();
+
+      const price = product.price;
+      const totalUSD = price * quantity;
+      const finalTotal = totalUSD + shippingFee;
+      const amountInKobo = Math.round(finalTotal * 1547.30 * 100);
+      const reference = `ARC${Date.now()}`;
+
+      const orderRes = await fetch('https://arcana-backend-z46k.onrender.com/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          products: [{
+            productId,
+            title: product.name,
+            image: product.image,
+            size,
+            quantity,
+            price
+          }],
+          shippingAddress: user.addresses[0],
+          phoneNumber: user.phone,
+          totalPrice: totalUSD,
+          shippingFee,
+          reference
+        })
+      });
+
+      const payRes = await fetch('https://arcana-backend-z46k.onrender.com/api/paystack/initialize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: userEmail,
+          amount: amountInKobo,
+          reference
+        })
+      });
+
+      const payData = await payRes.json();
+      if (payData.data && payData.data.authorization_url) {
+        window.location.href = payData.data.authorization_url;
+      } else {
+        alert("Payment initialization failed.");
+      }
+    });
+  } catch (err) {
+    console.error("Pre-order error:", err);
+    alert("Something went wrong. Please try again.");
+  }
+});
+</script>
+
 
 </body>
 </html>

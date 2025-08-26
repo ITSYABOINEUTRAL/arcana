@@ -64,7 +64,6 @@
             <div class="col-4">
                 <img src="arcana-drop00-jersey.png" alt="Arcana's Drop 00 Jersey">
                 <h3>Arcana's Drop 00 Jersey</h3>
-                <p>(Coming Soon)</p>
                 <div class="product-price" data-usd="0">
                     <p>$0.00</p>
                 </div>
@@ -76,7 +75,6 @@
             <div class="col-4">
                 <img src="arcana-drop00-sweatpants.png" alt="Arcana's Drop 00 Sweatpants">
                 <h3>Arcana's Drop 00 Sweatpants</h3>
-                <p>(Coming Soon)</p>
                 <div class="product-price" data-usd="0">
                     <p>$0.00</p>
                 </div>
@@ -88,7 +86,6 @@
             <div class="col-4">
                 <img src="arcana-drop00.png" alt="Arcana's Drop 00">
                 <h3>Arcana's Drop 00</h3>
-                <p>(Coming Soon)</p>
                 <div class="product-price" data-usd="0">
                     <p>$0.00</p>
                 </div>
@@ -191,10 +188,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function getStaticProductPage(name) {
   const nameMap = {
-    "Arcana's Less is More Tee": "arcana's_lessismore_tee.html",
     "Arcana's Drop 00 Jersey": "arcana-drop00-jersey.html",
     "Arcana's Drop 00 Sweatpants": "arcana's-drop00-sweatpants.html",
-    "Arcana's Drop 00": "arcana-drop00.html"
+    "Arcana's Drop 00": "arcana-drop00.html",
+    "Arcana's Shorts(🐆 Set)": "arcana-shorts.html",
+    "Arcana's Compression Tee(🐆 Set)": "arcana-compressiontee.html",
+    "Arcana's ID.TO": "arcana-id.to.html",
+    "Arcana's Panther Set": "arcana-pantherset.html",
+    "Arcana's Polo": "polo.html",
+    "Arcana's 🐍... Tee": "arcana-🐍.html"
+
   };
 
   return nameMap[name] || "#";
@@ -227,9 +230,11 @@ document.addEventListener("DOMContentLoaded", () => {
       sortedProducts.forEach((product) => {
         const convertedPrice = (product.price * currencyRates[currentCurrency]).toFixed(2);
         const comingSoonProducts = [
-          "Arcana's Drop 00 Jersey",
-          "Arcana's Drop 00 Sweatpants",
-          "Arcana's Drop 00"
+          "Arcana's 🐍... Tee",
+          "Arcana's Shorts(🐆 Set)",
+          "Arcana's Compression Tee(🐆 Set)",
+          "Arcana's ID.TO",
+          "Arcana's Panther Set"
         ];
 
         const isComingSoon = comingSoonProducts.includes(product.name);
