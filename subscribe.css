@@ -1,0 +1,206 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 10px;
+    color: white;
+}
+
+body::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: url("https://res.cloudinary.com/db8mcyukl/image/upload/v1756233810/IMG_9371_fnslmu.jpg"), #000;
+    background-position: center;
+    background-size: cover;
+    z-index: -1;
+}
+
+.wrapper {
+    width: min(92vw, 520px);
+    border-radius: 8px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid #ffffff80;
+    backdrop-filter: blur(8px);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.input-field {
+    position: relative;
+    width: 70%;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    margin: 15px 0;
+}
+
+.input-field label {
+    position: absolute;
+    color: #fff;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    font-size: 16px;
+    pointer-events: none;
+    transition: 0.15s ease;
+}
+
+.input-field input {
+    width: 100%;
+    height: 40px;
+    color: #fff;
+    background: white;
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+.input-field input:focus~label,
+.input-field input:valid~label {
+    font-size: 0.8rem;
+    top: 10px;
+    transform: translateY(-120%);
+}
+
+.forget {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 25px 0 35px 0;
+    color: #fff;
+}
+
+#remeber {
+    accent-color: #fff;
+}
+
+.forget label {
+    display: flex;
+    align-items: center;
+}
+
+.forget label p {
+    margin-left: 8px;
+}
+
+.wrapper a {
+    color: #efefef;
+    text-decoration: underline;
+}
+
+button {
+    background: #000;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    width: 150px;
+    padding: 12px 20px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    transition: 0.3s ease;
+}
+
+.register {
+    text-align: center;
+    margin-top: 30px;
+    color: #fff;
+}
+.title {
+    text-align: center;
+    position: relative;
+    line-height: 60px;
+    color: #fff;
+}
+.title::after {
+    content: "";
+    width: 80px;
+    height: 5px;
+    background: #000;
+    position: absolute;
+    border-radius: 5px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+h2 {
+    text-align: center;
+    position: relative;
+    color: #fff;
+}
+.newsletter-row {
+    display: flex;
+    flex-direction: row;
+    max-width: 460px;
+    grid-template-columns: 1fr auto; /* input grows, button hugs */
+    align-items: center;
+    justify-content: center;
+    gap: 10px; /* space between input and button */
+    margin: 15px 0;
+    width: 100%;
+}
+
+.newsletter-row input {
+    flex: 1; /* makes input stretch */
+    min-width: 185px; /* prevents it from shrinking too small */
+    height: 40px;
+    padding: 0 10px;
+    border: 2px solid #ccc;
+    border-radius: 3px;
+    font-size: 16px;
+    outline: none;
+    color: black;
+}
+
+.newsletter-row button {
+    height: 40px;
+    padding: 0 20px;
+    background: #000;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid #000;
+    border-radius: 3px;
+    transition: 0.3s ease;
+}
+
+/* Mobile: stack input + button and make them full-width */
+@media (max-width: 480px) {
+    .newsletter-row {
+        grid-template-columns: 1fr;
+    }
+    body {
+        background-size: auto 100%;
+    }
+    .newsletter-row button,
+    .newsletter-row input {
+        width: 100%;
+    }
+}
+@media (max-width: 390px) {
+    body {
+        background-size: auto 100%;
+    }
+}
