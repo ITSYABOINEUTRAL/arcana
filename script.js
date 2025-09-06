@@ -1,4 +1,3 @@
-script.js
 const currencyRates = {
   USD: 1,
   EUR: 0.8666,
