@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title>Cart - Arcana</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body class="product-details-page">
+
+    <div class="container">
+    <div class="navbar">
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Logo" width="125px"></a>
+        </div>
+            <select id="currency" class="currency-selector">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="NGN">NGN (₦)</option>
+            </select>
+        <nav>
+            <ul id="MenuItems">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="account.html">Account</a></li>
+            </ul>
+        </nav>
+        <a href="cart.html"><img src="cart.png" width="30px" height="30px" alt="Cart Icon" class="cart-icon"></a>
+        <img src="menu.png" width="30px" height="30px" alt="Menu Icon" class="menu-icon" onclick="menuToggle()">
+    </div>
+    </div>
+<br> <br> <br> <br> <br>
+<h2 class="title">Shopping Cart</h2>
+<div class="small-container single-product">
+<div class="product-grid">
+<section id="cart-container">
+    <table width="100%">
+        <thead>
+            <tr>
+                <td>Remove</td>
+                <td>Image</td>
+                <td>Product</td>
+                <td>Size</td>
+                <td>Price</td>
+                <td>Quantity</td>
+                <td>Total</td>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Cart items will be injected here by cart.js -->
+        </tbody>
+    </table>
+</section>
+<br> <br>
+
+<section id="cart-summary" class="cart-summary">
+  <div class="row">
+    <div class="coupon col-lg-6 col-md-6 col-12  mb-4">
+      <div class="coupon">
+        <h5>COUPON</h5>
+        <p>Enter your coupon code if you have one.</p>
+        <input id="coupon-input" class="coupon" type="text" placeholder="Enter coupon code">
+        <button id="apply-coupon-btn" class="btn">Apply Coupon</button>
+      </div>
+    </div>
+    <div class="total col-lg-6 col-md-6 col-12">
+      <div class="cart-total">
+        <h5>CART TOTAL</h5>
+        <div class="d-flex justify-content-between">
+          <p>Subtotal</p>
+          <p class="subtotal">$0.00</p>
+        </div>
+        <div class="d-flex justify-content-between">
+          <p>Shipping</p>
+          <p class="shipping">$0.00</p>
+        </div>
+        <hr class="second-hr">
+        <div class="d-flex justify-content-between">
+          <p>Total</p>
+          <p class="Total">$0.00</p>
+        </div>
+        <button id="checkout-btn" class="btn">Proceed To Checkout</button>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+</div>
+<br> <br> <br> 
+ <!------ footer section ------>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <a href="index.html"><img src="arcana_logo.png" alt="Arcana Logo"></a>
+                    <a href="contact.html"><h3>Contact Us</h3></a>
+                    <a href="mailto:arcanashopng@gmail.com"><p><div class="email">Email: support@arcana.com</div></p></a>
+                    <p>Hours: 9:00 AM - 5:00 PM</p>
+
+                </div>
+                <div class="footer-col-2">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="returns&exchanges.html">Returns & Exchanges Policy</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms&conditions.html">Terms & Conditions</a></li>
+                        <li><a href="contact.html">Contact Support</a></li>
+                        <li><a href="order_status.html">Order Status</a></li>
+                        <li>Payment Options</li>
+                    </ul>
+                </div>
+                <div class="footer-col-3">
+                    <h3>My Account</h3>
+                    <ul>
+                        <li><a href="account.html">Sign In</a></li>
+                        <li><a href="cart.html">View Cart</a></li>
+                        <li><a href="order_status.html">Track My Order</a></li>
+                        <li>Secured Payment Gateways</li>
+                    </ul>
+                    <img src="pay.png" alt="Secure Payment Methods">
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/arcana.ng?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@arcana.ng?_t=ZS-8yCFw0GlnaE&_r=1">Tiktok</a></li>
+                        <li><a href="https://pin.it/2TyuCuriX">Pinterest</a></li>
+                        <li><a href="https://x.com/arcanashopng1?s=11">X</a></li>
+                    </ul>
+                </div>
+            </div>
+                <hr>
+                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+        </div>
+
+    </div>
+    <script src="script.js" defer></script>
+    <script src="cart.js" defer></script>
+    <script>
+        document.getElementById('apply-coupon-btn').addEventListener('click', function() {
+          const validCoupons = ['DISCOUNT10', 'SAVE20']; // Example valid codes
+          const input = document.getElementById('coupon-input').value.trim();
+          if (!validCoupons.includes(input)) {
+        alert('Invalid coupon code');
+          }
+        });
+      </script>
+    <style>
+      #cart-container {
+       overflow-x: auto;
+      }
+      #cart-container table {
+        width: 100%;
+        border-collapse: collapse;
+        table-layout: fixed;
+        white-space: nowrap;
+      }
+      #cart-container table thead {
+        font-weight: 700;
+      }
+      #cart-container table thead td {
+        background: #b7804f;
+        border: none;
+        padding: 6px 0;
+      }
+      #cart-container table td {
+        border: 1px solid #b7804f;
+        text-align: center;
+      }
+      #cart-container table thead td:nth-child(1) {
+        width: 100px;
+      }
+      #cart-container table thead td:nth-child(2),
+      #cart-container table thead td:nth-child(3) {
+        width: 210px;
+      }
+      #cart-container table thead td:nth-child(4),
+      #cart-container table thead td:nth-child(5),
+      #cart-container table thead td:nth-child(6),
+      #cart-container table thead td:nth-child(7) {
+        width: 170px;
+      }
+      #cart-container table tbody img {
+        width: 100px;
+        height: 80px;
+        object-fit: cover;
+      }
+      #cart-container table tbody i {
+        color: #b7804f;
+      }
+      #cart-container table tbody button.remove-btn {
+        border: none;
+      }
+      input.coupon {
+        width: 50%;
+        height: 35px;
+        padding: 10px;
+        border: 2px solid #b7804f;
+        border-radius: 2px;
+        margin-bottom: 10px;
+      }
+      .cart-total {
+        width: 450px;
+      }
+      .cart-total .Total {
+        text-align: right;
+      }
+       .cart-total .shipping {
+        text-align: right;
+      }
+      .cart-total .subtotal {
+        text-align: right;
+      }
+      #cart-summary .btn {
+        background-color: #b7804f;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+      #cart-summary .btn:hover {
+        background-color: #f0c9a0;
+      }
+      .cart-summary {
+        margin-top: 20px;
+      }
+      .cart-summary .coupon>div {
+        border: #b7804f 1px solid;
+      }
+      .cart-summary .cart-total {
+        border: #b7804f 1px solid;
+      }
+      .cart-summary .cart-total .btn {
+        margin: 0 12px 20px 0;
+        display: flex;
+        justify-content: flex-end;
+      }
+      .cart-summary .coupon h5,
+      .cart-summary .cart-total h5 {
+        background: #b7804f;
+        border: none;
+        padding: 6px 12px;
+        font-weight: 700;
+      }
+      .cart-summary .coupon p,
+      .cart-summary .coupon input {
+        padding: 0 12px;
+      }
+      .cart-summary .coupon input {
+        margin: 0 1 20px 12px;
+      }
+      /* Responsive */
+      @media (max-width: 925px) {
+        #cart-summary .cart-total,
+        #cart-summary .coupon {
+          margin-top: 50px;
+          width: 800px;
+        }
+      }
+      @media (max-width: 825px) {
+        #cart-summary .cart-total,
+        #cart-summary .coupon {
+          width: 700px;
+        }
+      }
+      @media (max-width: 500px) {
+        #cart-summary .cart-total,
+        #cart-summary .coupon {
+          width: 310px;
+          margin-top: 50px;
+        }
+      }
+      @media (max-width: 375px) {
+        #cart-summary .cart-total,
+        #cart-summary .coupon {
+          width: 250px;
+        }
+      }
+    </style>
+</body>
+</html>

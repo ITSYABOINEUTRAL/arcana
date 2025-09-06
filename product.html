@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title>Products - Arcana</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="product-page">
+
+    <div class="container">
+    <div class="navbar">
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Logo" width="125px"></a>
+        </div>
+            <select id="currency" class="currency-selector">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="NGN">NGN (₦)</option>
+            </select>
+        <nav>
+            <ul id="MenuItems">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="account.html">Account</a></li>
+            </ul>
+        </nav>
+        <a href="cart.html"><img src="cart.png" width="30px" height="30px" alt="Cart Icon" class="cart-icon"></a>
+        <img src="menu.png" width="30px" height="30px" alt="Menu Icon" class="menu-icon" onclick="menuToggle()">
+    </div>
+    </div>
+<br> <br> <br>
+    <div class="container">
+        <div class="row row-2">
+            <h2>All Products</h2>
+            <select name="sort" id="sort">
+                <option value="default">Default Sorting</option>
+                <option value="name_asc">Sort by Name: A to Z</option>
+                <option value="name_desc">Sort by Name: Z to A</option>
+                <option value="price_low">Sort by Price: Low to High</option>
+                <option value="price_high">Sort by Price: High to Low</option>
+            </select>
+        </div>
+
+        <div class="product-grid">
+            <div class="row">
+            </div>
+            
+
+        </div>
+        <div class="page-btn">
+            <a href=""><span>1</span></a>
+            <a href=""><span>2</span></a>
+            <a href=""><span>&#8594;</span></a>
+            
+        </div>
+        </div>
+        </div>
+ <!------ footer section ------>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <a href="index.html"><img src="arcana_logo.png" alt="Arcana Logo"></a>
+                    <a href="contact.html"><h3>Contact Us</h3></a>
+                    <a href="mailto:arcanashopng@gmail.com"><p><div class="email">Email: arcanashopng@gmail.com</div></p></a>
+                    <p>Hours: 9:00 AM - 5:00 PM</p>
+
+                </div>
+                <div class="footer-col-2">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="returns&exchanges.html">Returns & Exchanges Policy</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms&conditions.html">Terms & Conditions</a></li>
+                        <li><a href="contact.html">Contact Support</a></li>
+                        <li><a href="order_status.html">Order Status</a></li>
+                        <li>Payment Options</li>
+                    </ul>
+                </div>
+                <div class="footer-col-3">
+                    <h3>My Account</h3>
+                    <ul>
+                        <li><a href="account.html">Sign In</a></li>
+                        <li><a href="cart.html">View Cart</a></li>
+                        <li><a href="order_status.html">Track My Order</a></li>
+                        <li>Secured Payment Gateways</li>
+                    </ul>
+                    <img src="pay.png" alt="Secure Payment Methods">
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/arcana.ng?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@arcana.ng?_t=ZS-8yCFw0GlnaE&_r=1">Tiktok</a></li>
+                        <li><a href="https://pin.it/2TyuCuriX">Pinterest</a></li>
+                        <li><a href="https://x.com/arcanashopng1?s=11">X</a></li>
+                    </ul>
+                </div>
+            </div>
+                <hr>
+                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+        </div>
+
+    </div>
+    <script src="script.js" defer></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const API_URL = "https://arcana-backend-z46k.onrender.com/api/products";
+  const productRow = document.querySelector(".product-grid .row");
+  const sortSelect = document.getElementById("sort");
+
+  const currencyRates = {
+    USD: 1,
+    EUR: 0.8666,
+    GBP: 0.7375,
+    NGN: 1547.30,
+  };
+
+  const currencySymbols = {
+    USD: "$",
+    EUR: "€",
+    GBP: "£",
+    NGN: "₦",
+  };
+
+  const currencySelector = document.getElementById("currency");
+  let currentCurrency = currencySelector.value;
+
+  currencySelector.addEventListener("change", () => {
+    currentCurrency = currencySelector.value;
+    fetchAndRenderProducts(sortSelect.value);
+  });
+
+  sortSelect.addEventListener("change", () => {
+    fetchAndRenderProducts(sortSelect.value);
+  });
+
+  function getStaticProductPage(name) {
+  const nameMap = {
+    "Arcana's Drop 00 Jersey": "arcana-drop00-jersey.html",
+    "Arcana's Drop 00 Sweatpants": "arcana's-drop00-sweatpants.html",
+    "Arcana's Drop 00": "arcana's-drop00.html",
+    "Arcana's Shorts(🐆 Set)": "arcana-shorts.html",
+    "Arcana's Compression Tee(🐆 Set)": "arcana-compressiontee.html",
+    "Arcana's ID.TO": "arcana-id.to.html",
+    "Arcana's Panther Set": "arcana-pantherset.html",
+    "Arcana's Polo": "polo.html",
+    "Arcana's 🐍... Tee": "arcana-🐍.html"
+
+  };
+
+  return nameMap[name] || "#";
+}
+
+  async function fetchAndRenderProducts(sortValue) {
+    try {
+      const res = await fetch(API_URL);
+      const products = await res.json();
+
+      let sortedProducts = [...products];
+
+      switch (sortValue) {
+        case "name_asc":
+          sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case "name_desc":
+          sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        case "price_low":
+          sortedProducts.sort((a, b) => a.price - b.price);
+          break;
+        case "price_high":
+          sortedProducts.sort((a, b) => b.price - a.price);
+          break;
+      }
+
+      productRow.innerHTML = "";
+
+      sortedProducts.forEach((product) => {
+        const convertedPrice = (product.price * currencyRates[currentCurrency]).toFixed(2);
+        const comingSoonProducts = [
+          "Arcana's 🐍... Tee",
+          "Arcana's Shorts(🐆 Set)",
+          "Arcana's Compression Tee(🐆 Set)",
+          "Arcana's ID.TO",
+          "Arcana's Panther Set"
+        ];
+
+        const isComingSoon = comingSoonProducts.includes(product.name);
+
+        const productHTML = `
+        <div class="col-4">
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        ${isComingSoon ? "<p>(Coming Soon)</p>" : ""}
+        <div class="product-price" data-usd="${product.price}">
+        <p>${currencySymbols[currentCurrency]}${convertedPrice}</p>
+        </div>
+        <div class="rating">
+        <span>★★★★★</span>
+        </div>
+        <a href="${getStaticProductPage(product.name)}" class="btn">View Details</a>
+        </div>
+        `;
+
+        productRow.insertAdjacentHTML("beforeend", productHTML);
+      });
+
+    } catch (err) {
+      console.error("Failed to fetch products:", err);
+    }
+  }
+
+  fetchAndRenderProducts(sortSelect.value);
+});
+</script>
+
+</body>
+</html>

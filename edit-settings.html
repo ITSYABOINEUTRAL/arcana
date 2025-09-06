@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <title>Edit Settings - Arcana</title>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar">
+        <div class="logo">
+            <a href="index.html"><img src="logo.png" alt="Logo" width="125px"></a>
+        </div>
+        <nav>
+            <ul id="MenuItems">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="account.html">Account</a></li>
+            </ul>
+        </nav>
+        <a href="cart.html"><img src="cart.png" width="30px" height="30px" alt="Cart Icon" class="cart-icon"></a>
+        <img src="menu.png" width="30px" height="30px" alt="Menu Icon" class="menu-icon" onclick="menuToggle()">
+        </div>
+    </div>
+  <header><h1>Edit Your Settings</h1></header>
+  <form>
+    <label for="email">Email:</label><br>
+    <input type="email" id="updateSettings-email" name="email"><br>
+    <label for="name">Full Name:</label><br>
+    <input type="text" id="name" name="name"><br>
+    <label for="phone">Phone Number:</label><br>
+    <input type="tel" id="phone" name="phone"><br>
+    <label for="address">Shipping Address:</label><br>
+    <input type="text" id="address" name="address"><br>
+    <label for="city">City:</label><br>
+    <input type="text" id="city" name="city"><br>
+    <label for="state">State:</label><br>
+    <input type="text" id="state" name="state"><br>
+    <label for="zip">ZIP Code:</label><br>
+    <input type="text" id="zip" name="zip"><br>
+    <label for="country">Country:</label><br>
+    <input type="text" id="country" name="country"><br>
+    <label for="current-password">Current Password:</label><br>
+    <input type="password" id="current-password" name="current-password"><br>
+    <button type="button" onclick="updateSettings()">Update</button>
+
+  </form>
+  <form>
+    <span>Change Password</span>
+    <label for="email">Email:</label>
+    <input type="email" id="changePassword-email" name="email" required><br>
+    <label for="password">Current Password</label>
+    <input type="password" id="old-password" name="old-password"><br>
+    <label for="password">New Password:</label><br>
+    <input type="password" id="password" name="password"><br>
+    <label for="confirm-password">Confirm New Password:</label><br>
+    <input type="password" id="confirm-password" name="confirm-password"><br>
+    <button type="button" onclick="changePassword()">Change Password</button>
+  </form>
+  <br> <br> <br> <br>
+      <!------ footer section ------>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <a href="index.html"><img src="arcana_logo.png" alt="Arcana Logo"></a>
+                    <h3>Contact Us</h3>
+                    <a href="mailto:arcanashopng@gmail.com">Email: arcanashopng@gmail.com</a>
+                    <p>Hours: 9:00 AM - 5:00 PM</p>
+
+                </div>
+                <div class="footer-col-2">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="returns&exchanges.html">Returns & Exchanges Policy</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms&conditions.html">Terms & Conditions</a></li>
+                        <li><a href="contact.html">Contact Support</a></li>
+                        <li><a href="order_status.html">Order Status</a></li>
+                        <li>Payment Options</li>
+                    </ul>
+                </div>
+                <div class="footer-col-3">
+                    <h3>My Account</h3>
+                    <ul>
+                        <li><a href="account.html">Sign In</a></li>
+                        <li><a href="cart.html">View Cart</a></li>
+                        <li><a href="order_status.html">Track My Order</a></li>
+                        <li>Secured Payment Gateways</li>
+                    </ul>
+                    <img src="pay.png" alt="Secure Payment Methods">
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/arcana.ng?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@arcana.ng?_t=ZS-8yCFw0GlnaE&_r=1">Tiktok</a></li>
+                        <li><a href="https://pin.it/2TyuCuriX">Pinterest</a></li>
+                        <li><a href="https://x.com/arcanashopng1?s=11">X</a></li>
+                    </ul>
+                </div>
+            </div>
+                <hr>
+                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+        </div>
+
+    </div>
+    <script src="other-script.js" defer></script>
+<script>
+const API_BASE = 'https://arcana-backend-z46k.onrender.com/api';
+const token = localStorage.getItem('token');
+
+if (!token) {
+  alert("You must be logged in to access this page.");
+  window.location.href = "account.html";
+}
+
+// Update profile information
+async function updateSettings() {
+  const name = document.getElementById('name').value.trim();
+  const email = document.getElementById('updateSettings-email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const street = document.getElementById('address').value.trim();
+  const city = document.getElementById('city').value.trim();
+  const state = document.getElementById('state').value.trim();
+  const zip = document.getElementById('zip').value.trim();
+  const country = document.getElementById('country').value.trim();
+
+  if (!name || !email || !phone) {
+    return alert('Name, email, and phone are required.');
+  }
+
+  const body = {
+    name,
+    phone,
+    address: { street, city, state, zip, country }
+  };
+
+  try {
+    const res = await fetch(`${API_BASE}/auth/profile`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Failed to update profile.");
+    }
+    alert("Profile updated successfully!");
+    
+  const returnTo = localStorage.getItem("returnAfterSettings");
+if (returnTo) {
+  localStorage.removeItem("returnAfterSettings");
+  window.location.href = returnTo;  // goes back to cart.html
+} else {
+  window.location.href = "account-dashboard.html";  // default
+}
+  } catch (err) {
+    alert(err.message);
+  }
+}
+
+// Change password
+async function changePassword() {
+  const email = document.getElementById('changePassword-email').value.trim();
+  const oldPassword = document.getElementById('old-password').value;
+  const newPassword = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirm-password').value;
+
+  if (!email || !oldPassword || !newPassword || !confirmPassword) {
+    return alert('All fields are required.');
+  }
+
+  if (newPassword !== confirmPassword) {
+    return alert("New passwords do not match.");
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/auth/change-password`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify({ email, oldPassword, newPassword })
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message || "Failed to change password");
+
+    alert("Password changed successfully!");
+    document.getElementById("old-password").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("confirm-password").value = "";
+  } catch (err) {
+    alert(err.message);
+  }
+}
+</script>
+
+
+    <style>
+    /* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Container */
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 20px 0;
+}
+/* Header */
+header h1 {
+  font-size: 2rem;
+  margin-top: 40px;
+  margin-bottom: 10px;
+  color: #fff;
+  text-align: center;
+}
+
+/* Form */
+form {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+}
+
+form select,
+form input,
+form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+}
+
+form button {
+  padding: 12px 20px;
+  border: none;
+  background-color: #b7804f;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+border-radius: 6px;
+width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #f0c9a0;
+}
+
+span {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #000;
+}
+.footer-col-3 img {
+        width: 100%;
+        padding-right: 0;
+}
+/* Contact Info */
+.contact-info {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.contact-info h2 {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.contact-info a {
+  color: #fff;
+  text-decoration: none;
+}
+.contact-info a:hover {
+  text-decoration: underline;
+}
+.contact-info p {
+  color: #fff;
+  margin-bottom: 10px;
+}
+.footer p {
+  color: #fff;
+}
+.footer a {
+  color: #fff;
+  text-decoration: none;
+}
+/* Responsive */
+@media (max-width: 768px) {
+  .navbar nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  form {
+    padding: 20px;
+  }
+      .footer-col-3 img {
+        width: 50%;
+        padding-right: 0;
+    }
+}
+@media (max-width: 600px) {
+  .navbar nav ul {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .row {
+    flex-direction: column;
+  }
+
+  form {
+    padding: 20px;
+  }
+    .footer-col-3 img {
+        width: 50%;
+        padding-right: 0;
+    }
+}
+
+</style>
+</body>
+</html>

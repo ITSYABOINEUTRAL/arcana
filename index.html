@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <title>Arcana</title>
+    <link rel="stylesheet" href="subscribe.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "Arcana",
+        "url":"https://www.shop-arcana.store",
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://shop-arcana.store/search?q={search_term_string}",
+            "url": "https://shop-arcana.store",
+            "query-input": "required name=search_term_string",
+            "logo": "https://shop-arcana.store/logo.png"
+        }
+    }
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <form>
+        <h1 class="title">Welcome</h1>
+        <h2>Arcana goes live on 13th September, 2025 <br>12:00pm WAT</h2>
+        <br> <br> 
+        <h2 class="title" >Newsletter</h2>
+        <br> <br>
+        <h3>Subscribe to our newsletter to get notified when Arcana goes live!</h3>
+        <div class="newsletter-row">
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+        </div>
+    </form>
+</div>
+<script>
+document.querySelector("form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const email = document.getElementById("email").value;
+
+  try {
+    const res = await fetch("https://arcana-backend-z46k.onrender.com/api/newsletter/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email })
+    });
+
+    const data = await res.json();
+    alert(data.message || "Subscribed successfully!");
+  } catch (err) {
+    console.error(err);
+    alert("Something went wrong. Please try again.");
+  }
+  document.getElementById("email").value = "";
+});
+</script>
+</body>
+</html>

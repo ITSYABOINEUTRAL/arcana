@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="account-dashboard.css">
+  <title>Account Dashboard - Arcana</title>
+</head>
+<body>
+  <div class="container">
+    <div class="navbar">
+      <div class="logo">
+        <a href="index.html"><img src="logo.png" alt="Logo" width="125px"></a>
+      </div>
+      <nav>
+        <ul id="MenuItems">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="product.html">Products</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="account.html">Account</a></li>
+        </ul>
+      </nav>
+      <a href="cart.html"><img src="cart.png" width="30px" height="30px" alt="Cart Icon" class="cart-icon"></a>
+      <img src="menu.png" width="30px" height="30px" alt="Menu Icon" class="menu-icon" onclick="menuToggle()">
+    </div>
+  </div>
+
+  <div class="dashboard-container">
+    <nav class="dashboard-nav">
+      <h2>My Account</h2>
+      <div class="profile-picture">
+        <img id="user-profile-pic" src="default-avatar.png" alt="Profile Picture">
+        <form id="upload-form">
+          <label for="profile-pic-file">Change Profile Picture:</label><br>
+          <input type="file" id="profile-pic-file" accept="image/*"><br>
+          <button type="submit">Upload New Picture</button>
+          <small id="upload-status"></small>
+        </form>
+      </div>
+      <ul>
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="edit-settings.html">Settings</a></li>
+        <li><a href="#" id="logoutBtn" onclick="logout()">Logout</a></li>
+      </ul>
+    </nav>
+
+    <div class="dashboard-main">
+      <section id="orders" class="section">
+        <h2>Order History</h2>
+        <ul id="order-history">
+          <!-- Orders will be dynamically inserted here -->
+        </ul>
+      </section>
+
+      <section id="addresses" class="section">
+        <h2>Saved Addresses</h2>
+        <ul id="user-address">
+          <!-- Addresses will be dynamically inserted here -->
+        </ul>
+      </section>
+
+      <section id="profile" class="section">
+        <h2>Profile Information</h2>
+        <p id="user-name">Name: </p>
+        <p id="user-phone">Phone: </p>
+        <p id="user-email">Email: </p>
+        <a href="edit-settings.html">Edit Settings</a>
+      </section>
+    </div>
+  </div>
+
+  <br><br><br><br>
+  <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="footer-col-1">
+          <a href="index.html"><img src="arcana_logo.png" alt="Arcana Logo"></a>
+          <h3>Contact Us</h3>
+          <a href="mailto:arcanashopng@gmail.com">Email: arcanashopng@gmail.com</a>
+          <p>Hours: 9:00 AM - 5:00 PM</p>
+        </div>
+        <div class="footer-col-2">
+          <h3>Help</h3>
+          <ul>
+            <li><a href="faqs.html">FAQs</a></li>
+            <li><a href="returns&exchanges.html">Returns & Exchanges Policy</a></li>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms&conditions.html">Terms & Conditions</a></li>
+            <li><a href="contact.html">Contact Support</a></li>
+            <li><a href="order_status.html">Order Status</a></li>
+            <li>Payment Options</li>
+          </ul>
+        </div>
+        <div class="footer-col-3">
+          <h3>My Account</h3>
+          <ul>
+            <li><a href="account.html">Sign In</a></li>
+            <li><a href="cart.html">View Cart</a></li>
+            <li><a href="order_status.html">Track My Order</a></li>
+            <li>Secured Payment Gateways</li>
+          </ul>
+          <img src="pay.png" alt="Secure Payment Methods">
+        </div>
+        <div class="footer-col-4">
+          <h3>Follow Us</h3>
+          <ul>
+                        <li><a href="https://www.instagram.com/arcana.ng?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@arcana.ng?_t=ZS-8yCFw0GlnaE&_r=1">Tiktok</a></li>
+                        <li><a href="https://pin.it/2TyuCuriX">Pinterest</a></li>
+                        <li><a href="https://x.com/arcanashopng1?s=11">X</a></li>
+                    </ul>
+        </div>
+      </div>
+      <hr>
+      <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+    </div>
+  </div>
+
+  <script src="account-dashboard-script.js"></script>
+  <script src="other-script.js"></script>
+</body>
+</html>
