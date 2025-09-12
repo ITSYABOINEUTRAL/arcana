@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="logo.png" type="image/x-icon">
     <title>Arcana</title>
-    <link rel="stylesheet" href="subscribe.css">
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Arcana",
-        "url":"https://www.shop-arcana.store",
+        "url": "https://www.arcana.com",
         "potentialAction": {
             "@type": "SearchAction",
             "target": "https://shop-arcana.store/search?q={search_term_string}",
@@ -26,40 +26,199 @@
     </script>
 </head>
 <body>
-<div class="wrapper">
-    <form>
-        <h1 class="title">Welcome</h1>
-        <h2>Arcana goes live on 13th September, 2025 <br>12:00pm WAT</h2>
-        <br> <br> 
-        <h2 class="title" >Newsletter</h2>
-        <br> <br>
-        <h3>Subscribe to our newsletter to get notified when Arcana goes live!</h3>
-        <div class="newsletter-row">
-        <input type="email" id="email" name="email" placeholder="Enter your email" required>
-        <button type="submit">Subscribe</button>
+
+    <div class="header">
+    <div class="container">
+    <div class="navbar">
+        <div class="logo">
+            <a href=""><img src="logo.png" alt="Logo" width="125px"></a>
         </div>
-    </form>
-</div>
-<script>
-document.querySelector("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const email = document.getElementById("email").value;
+            <select id="currency" class="currency-selector">
+            <option value="USD">USD ($)</option>
+            <option value="EUR">EUR (€)</option>
+            <option value="GBP">GBP (£)</option>
+            <option value="NGN">NGN (₦)</option>
+            </select>
+        <nav>
+            <ul id="MenuItems">
+                <li><a  class="active" href="index.html">Home</a></li>
+                <li><a href="product.html">Products</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="account.html">Account</a></li>
+            </ul>
+        </nav>
+        <a href="cart.html"><img src="cart.png" width="30px" height="30px" alt="Cart Icon" class="cart-icon"></a>
+        <img src="menu.png" width="30px" height="30px" alt="Menu Icon" class="menu-icon" onclick="menuToggle()">
+    </div>
+    <div class="row">
+        <div class="col-2">
+            <br>
+            <h1>Welcome to Arcana<br>Unlock your Style!</h1>
+            <p>Explore Arcana's premium collection of unique and stylish products.</p>
+            <a href="product.html" class="btn">Explore Now &#8594;</a>
+        </div>
+        <div class="col-2">
+            <img src="background.png" alt="Background Image">
+        </div>
+    </div>
+    </div>
+    </div>
+<br> <br> <br>
+    <!------- Pre-Order Now products section --------->
+    <div class="container">
+        <h2 class="title">Pre-Order Now</h2>
+        <div class="product-grid">
+        <div class="row">
+            <div class="col-4">
+                <img src="arcana-drop00-jersey.png" alt="Arcana's Drop 00 Jersey">
+                <h3>Arcana's Drop 00 Jersey</h3>
+                <div class="product-price" data-usd="12.00">
+                    <p>$12.00</p>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <a href="arcana-drop00-jersey.html" class="btn">View Details</a>
+            </div>
+            <div class="col-4">
+                <img src="arcana-drop00-sweatpants.png" alt="Arcana's Drop 00 Sweatpants">
+                <h3>Arcana's Drop 00 Sweatpants</h3>
+                <div class="product-price" data-usd="12.00">
+                    <p>$12.00</p>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <a href="arcana's-drop00-sweatpants.html" class="btn">View Details</a>
+            </div>
+            <div class="col-4">
+                <img src="arcana-drop00.png" alt="Arcana's Drop 00">
+                <h3>Arcana's Drop 00</h3>
+                <div class="product-price" data-usd="23.00">
+                    <p>$23.00</p>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <a href="arcana's-drop00.html" class="btn">View Details</a>
+            </div>
+            <div class="col-4">
+                <img src="polo.png" alt="Arcana's Polo">
+                <h3>Arcana's Polo</h3>
+                <div class="product-price" data-usd="16.50">
+                    <p>$16.50</p>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <a href="polo.html" class="btn">View Details</a>
+            </div>
+        </div>
+        </div>
+<!------------------ Coming Soon Products Section ------------------>       
+        <h2 class="title">Coming Soon...</h2>
+        <div class="product-grid">
+        <div class="row">
+            <div class="col-4">
+                <img src="pantherset.png" alt="Arcana's Panther Set">
+                <h3>Arcana's Panther Set</h3>
+                <p>(Coming Soon)</p>
+                <div class="product-price" data-usd="0">
+                    <p>$0.00</p>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <a href="arcana-pantherset.html" class="btn">View Details</a>
+            </div>
+            <div class="col-4">
+                <img src="panthertee.png" alt="Arcana's Compression Tee(🐆 Set)">
+                <h3>Arcana's Compression Tee(🐆 Set)</h3>
+                <p>(Coming Soon)</p>
+                <div class="product-price" data-usd="0">
+                    <p>$0.00</p>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <a href="arcana-compressiontee.html" class="btn">View Details</a>
+            </div>
+            <div class="col-4">
+                <img src="panthershorts.png" alt="Arcana's Shorts(🐆 Set)">
+                <h3>Arcana's Shorts(🐆 Set)</h3>
+                <p>(Coming Soon)</p>
+                <div class="product-price" data-usd="0">
+                    <p>$0.00</p>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <a href="arcana-shorts.html " class="btn">View Details</a>
+            </div>
+            <div class="col-4">
+                <img src="🐍.png" alt="Arcana's 🐍... Tee">
+                <h3>Arcana's 🐍... Tee</h3>
+                <p>(Coming Soon)</p>
+                <div class="product-price" data-usd="0">
+                    <p>$0.00</p>
+                </div>
+                <div class="rating">
+                    <span>★★★★★</span>
+                </div>
+                <a href="arcana-🐍.html" class="btn">View Details</a>
+            </div>
+        </div>
 
-  try {
-    const res = await fetch("https://arcana-backend-z46k.onrender.com/api/newsletter/subscribe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email })
-    });
+        </div>
+    </div>
+ <!------ footer section ------>
+    <div class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="footer-col-1">
+                    <img src="arcana_logo.png" alt="Arcana Logo">
+                    <a href="contact.html"><h3>Contact Us</h3></a>
+                    <a href="mailto:arcanashopng@gmail.com"><p><div class="email">Email: arcanashopng@gmail.com</div></p></a>
+                    <p>Hours: 9:00 AM - 5:00 PM</p>
 
-    const data = await res.json();
-    alert(data.message || "Subscribed successfully!");
-  } catch (err) {
-    console.error(err);
-    alert("Something went wrong. Please try again.");
-  }
-  document.getElementById("email").value = "";
-});
-</script>
+                </div>
+                <div class="footer-col-2">
+                    <h3>Help</h3>
+                    <ul>
+                        <li><a href="faqs.html">FAQs</a></li>
+                        <li><a href="returns&exchanges.html">Returns & Exchanges Policy</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms&conditions.html">Terms & Conditions</a></li>
+                        <li><a href="contact.html">Contact Support</a></li>
+                        <li><a href="order_status.html">Order Status</a></li>
+                        <li>Payment Options</li>
+                    </ul>
+                </div>
+                <div class="footer-col-3">
+                    <h3>My Account</h3>
+                    <ul>
+                        <li><a href="account.html">Sign In</a></li>
+                        <li><a href="cart.html">View Cart</a></li>
+                        <li><a href="order_status.html">Track My Order</a></li>
+                        <li>Secured Payment Gateways</li>
+                    </ul>
+                    <img src="pay.png" alt="Secure Payment Methods">
+                </div>
+                <div class="footer-col-4">
+                    <h3>Follow Us</h3>
+                    <ul>
+                        <li><a href="https://www.instagram.com/arcana.ng?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==">Instagram</a></li>
+                        <li><a href="https://www.tiktok.com/@arcana.ng?_t=ZS-8yCFw0GlnaE&_r=1">Tiktok</a></li>
+                        <li><a href="https://pin.it/2TyuCuriX">Pinterest</a></li>
+                        <li><a href="https://x.com/arcanashopng1?s=11">X</a></li>
+                    </ul>
+                </div>
+            </div>
+                <hr>
+                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+        </div>
+
+    </div>
+    <script src="script.js" defer></script>
 </body>
 </html>
