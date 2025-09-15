@@ -92,11 +92,7 @@
 
 
 <script>
-document.querySelector("form").addEventListener("submit", async function (e) {
-  e.preventDefault();
-  const input = this.querySelector("input");
-  const orderId = input.value.trim();
-  const statusDiv = document.getElementById("order-status");
+async function fetchOrder(orderId, statusDiv, input) {
   statusDiv.innerHTML = "<p>Loading...</p>";
 
   try {
@@ -158,8 +154,7 @@ document.querySelector("form").addEventListener("submit", async function (e) {
       </div>
     `;
 
-    // Clear the input field
-    input.value = "";
+    if (input) input.value = "";
   } catch (err) {
     let message = "Something went wrong. Please try again.";
     if (err.message === "not-found") {
@@ -167,8 +162,30 @@ document.querySelector("form").addEventListener("submit", async function (e) {
     } else if (err.message === "not-confirmed") {
       message = "⚠️ This order is not confirmed yet. Please complete payment before tracking.";
     }
-
     statusDiv.innerHTML = `<p style="color:red; font-weight:500">${message}</p>`;
+  }
+}
+
+// Handle manual form submission
+document.querySelector("form").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const input = this.querySelector("input");
+  const orderId = input.value.trim();
+  const statusDiv = document.getElementById("order-status");
+  if (orderId) {
+    fetchOrder(orderId, statusDiv, input);
+  }
+});
+
+// Auto-load if orderId is in URL
+window.addEventListener("DOMContentLoaded", () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const orderId = urlParams.get("orderId");
+  if (orderId) {
+    const input = document.querySelector("form input");
+    input.value = orderId;
+    const statusDiv = document.getElementById("order-status");
+    fetchOrder(orderId, statusDiv, input);
   }
 });
 </script>

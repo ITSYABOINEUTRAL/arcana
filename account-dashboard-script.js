@@ -49,11 +49,20 @@ fetch(`${API_BASE}/user/orders`, {
     } else {
       data.forEach(order => {
         const li = document.createElement("li");
-        li.textContent = `#${order.orderNumber} - ${order.status}`;
+
+        // Show order number + status
+        li.innerHTML = `
+          #${order.orderNumber} - ${order.status}
+          <a href="order_status.html?orderId=${order.orderNumber}" style="margin-left:5px; text-decoration:none; transition: background-color 0.3s, color 0.3s; color: #555;">
+            Order Details
+          </a>
+        `;
+
         list.appendChild(li);
       });
     }
   });
+
 
 // Handle profile picture upload
 const uploadForm = document.getElementById("upload-form");
