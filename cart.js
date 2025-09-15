@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const isNigeria = addresses.some(addr =>
         addr.country?.toLowerCase().includes('nigeria')
       );
-      shippingCost = isNigeria ? 5 : 20;
+      shippingCost = isNigeria ? 3.5 : 20;
       
     } catch {
       shippingCost = 20;

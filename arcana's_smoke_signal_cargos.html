@@ -128,7 +128,7 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
     }
 
     const isNigeria = user.addresses[0].country?.toLowerCase().includes("nigeria");
-    const shippingFee = isNigeria ? 5 : 20;
+    const shippingFee = isNigeria ? 3.5 : 20;
     const fullTotal = totalUSD + shippingFee;
 
 

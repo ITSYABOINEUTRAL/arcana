@@ -176,7 +176,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const user = await userRes.json();
 
     const isNigeria = user.addresses[0]?.country?.toLowerCase().includes("nigeria");
-    const shippingFee = isNigeria ? 5 : 20;  // ← make sure this is 5 not 10
+    const shippingFee = isNigeria ? 3.5 : 20;  // ← make sure this is 3.5 not 20
     
 
     preOrderBtn.addEventListener('click', async () => {
