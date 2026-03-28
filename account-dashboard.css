@@ -40,7 +40,7 @@ body {
     .dashboard-nav h2 {
       font-size: 20px;
       margin-bottom: 20px;
-      color: #333;
+      color: #000;
     }
     .dashboard-nav ul {
       list-style: none;
@@ -51,7 +51,7 @@ body {
     }
     .dashboard-nav a {
       text-decoration: none;
-      color: #555;
+      color: #000;
       font-weight: 500;
     }
     .dashboard-nav a:hover {
@@ -74,14 +74,14 @@ body {
       margin-bottom: 15px;
       border-bottom: 1px solid #eee;
       padding-bottom: 10px;
-      color: #222;
+      color: #000;
     }
     .section ul {
       padding-left: 20px;
-      color: #444;
+      color: #000;
     }
     .section p {
-      color: #444;
+      color: #000;
       line-height: 1.6;
     }
     .section a {
@@ -102,7 +102,7 @@ body {
    height: 100px;
    object-fit: cover;
    border-radius: 50%;
-   border: 3px solid #b7804f;
+   border: 3px solid #59493b;
 }
 #upload-form {
   margin-top: 10px;
@@ -112,14 +112,14 @@ body {
 }
 #upload-form button {
   padding: 6px 12px;
-  background-color: #b7804f;
+  background-color: #59493b;
   color: white;
   border: none;
   border-radius: 6px;
   cursor: pointer;
 }
 #upload-form button:hover {
-  background-color: #a66a35;
+  background-color: #8B6A4E;
 }
 #upload-status {
   color: green;
@@ -315,13 +315,5 @@ body {
   .navbar nav ul {
     flex-direction: column;
     gap: 6px;
-  }
-  .footer .row {
-    flex-direction: column;
-    gap: 18px;
-  }
-  .footer-col-1, .footer-col-2, .footer-col-3, .footer-col-4 {
-    width: 100%;
-    text-align: center;
   }
 }

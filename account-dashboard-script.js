@@ -2,8 +2,10 @@ const API_BASE = 'https://arcana-backend-z46k.onrender.com/api';
 const token = localStorage.getItem('token');
 
 if (!token) {
-  alert("You must be logged in to access your dashboard.");
-  window.location.href = "account.html";
+  showBlockingMessage(
+    "You must be logged in to access your dashboard.",
+    "account.html"
+  );
 }
 
 // GET user profile
@@ -53,8 +55,8 @@ fetch(`${API_BASE}/user/orders`, {
         // Show order number + status
         li.innerHTML = `
           #${order.orderNumber} - ${order.status}
-          <a href="order_status.html?orderId=${order.orderNumber}" style="margin-left:5px; text-decoration:none; transition: background-color 0.3s, color 0.3s; color: #555;">
-            Order Details
+          <a href="order_status.html?orderId=${order.orderNumber}" style="margin-left:5px; text-decoration:none; transition: background-color 0.3s, color 0.3s; color: #033265;">
+            Order Details &#8594;
           </a>
         `;
 
@@ -76,7 +78,7 @@ uploadForm.addEventListener("submit", async function (e) {
 
   const status = document.getElementById("upload-status");
   status.textContent = "Uploading...";
-  status.style.color = "#555";
+  status.style.color = "#000";
 
   try {
     const res = await fetch(`${API_BASE}/auth/upload-profile-pic`, {
@@ -103,6 +105,9 @@ uploadForm.addEventListener("submit", async function (e) {
 // Logout
 function logout() {
   localStorage.removeItem('token');
-  alert("You’ve been logged out.");
-  window.location.href = "account.html";
+  showBlockingMessage(
+    "You’ve been logged out.",
+    "account.html"
+  );
 }
+document.getElementById('year').textContent = new Date().getFullYear();

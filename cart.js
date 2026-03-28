@@ -6,11 +6,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   const token = localStorage.getItem('token');
   const userEmail = localStorage.getItem('userEmail');
 
-  if (!token || !userEmail) {
-    alert("You must be logged in to access your cart.");
-    window.location.href = "account.html";
-    return;
-  }
+if (!token || !userEmail) {
+  showBlockingMessage(
+    "You must be logged in to access your cart.",
+    "account.html"
+  );
+  return;
+}
 
   const API_BASE = "https://arcana-backend-z46k.onrender.com/api";
   const cartContainer = document.querySelector('#cart-container tbody');
@@ -264,3 +266,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 });
+document.getElementById('year').textContent = new Date().getFullYear();

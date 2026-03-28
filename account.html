@@ -22,7 +22,7 @@
           <li><a href="index.html">Home</a></li>
           <li><a href="product.html">Products</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="account.html">Account</a></li>
+          <li><a class="active" href="account.html">Account</a></li>
         </ul>
       </nav>
       <a href="cart.html"><img src="cart.png" width="30px" height="30px" alt="Cart Icon" class="cart-icon"/></a>
@@ -112,11 +112,13 @@
         </div>
       </div>
       <hr />
-      <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+                <p class="copyright">Copyright © <span id="year"></span> Arcana. All rights reserved.</p>
     </div>
   </div>
 <!-- Only script part shown below to keep it concise -->
 <!-- Script section -->
+
+<script src="other-script.js"></script>
 <script>
   const API_BASE = 'https://arcana-backend-z46k.onrender.com/api/auth';
 
@@ -186,14 +188,15 @@
 
       localStorage.setItem("userEmail", data.user.email);
       localStorage.setItem('token', data.token);
-      alert('Registration successful!');
-      window.location.href = 'account-dashboard.html';
+      showBlockingMessage(
+        "Registration successful!",
+        "account-dashboard.html"
+      );
     } catch (err) {
       alert(err.message);
     }
   });
 </script>
-<script src="other-script.js"></script>
 <script>
  document.addEventListener("DOMContentLoaded", async () => {
   const token = localStorage.getItem("token");
@@ -254,5 +257,13 @@
 }
 
 </style>
+<div id="notification-container"></div>
+
+<div id="arcana-modal-overlay" class="hidden">
+  <div class="arcana-modal">
+    <span class="close">&times;</span>
+    <p id="arcana-modal-text"></p>
+  </div>
+</div>
 </body>
 </html>

@@ -11,11 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="product-page">
-
     <div class="container">
     <div class="navbar">
         <div class="logo">
-            <a href="index.html"><img src="logo.png" alt="Logo" width="125px"></a>
+            <a href="index.html"><img src="logo.png" alt="Logo" width="125px" style="filter: invert(1);"></a>
         </div>
             <select id="currency" class="currency-selector">
             <option value="USD">USD ($)</option>
@@ -26,7 +25,7 @@
         <nav>
             <ul id="MenuItems">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="product.html">Products</a></li>
+                <li><a class="active" href="product.html">Products</a></li>
                 <li><a href="contact.html">Contact</a></li>
                 <li><a href="account.html">Account</a></li>
             </ul>
@@ -222,6 +221,14 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchAndRenderProducts(sortSelect.value);
 });
 </script>
+<div id="notification-container"></div>
+
+<div id="arcana-modal-overlay" class="hidden">
+  <div class="arcana-modal">
+    <span class="close">&times;</span>
+    <p id="arcana-modal-text"></p>
+  </div>
+</div>
 
 </body>
 </html>

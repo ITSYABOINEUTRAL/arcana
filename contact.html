@@ -103,7 +103,7 @@
                 </div>
             </div>
                 <hr>
-                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+           <p class="copyright">Copyright © <span id="year"></span> Arcana. All rights reserved.</p>
         </div>
 
     </div>
@@ -162,7 +162,7 @@ header h1 {
   font-size: 2rem;
   margin-top: 40px;
   margin-bottom: 10px;
-  color: #fff;
+  color: #000;
   text-align: center;
 }
 
@@ -190,7 +190,7 @@ form textarea {
 form button {
   padding: 12px 20px;
   border: none;
-  background-color: #b7804f;
+  background-color: #59493b;
   color: white;
   font-size: 1rem;
   cursor: pointer;
@@ -200,14 +200,14 @@ width: 100%;
 }
 
 form button:hover {
-  background-color: #f0c9a0;
+  background-color: #8B6A4E;
 }
 
 span {
   display: block;
   text-align: center;
   margin-bottom: 20px;
-  color: #fff;
+  color: #000;
 }
 
 /* Contact Info */
@@ -217,19 +217,19 @@ span {
 }
 
 .contact-info h2 {
-  color: #fff;
+  color: #000;
   margin-bottom: 10px;
 }
 
 .contact-info a {
-  color: #fff;
+  color: #000;
   text-decoration: none;
 }
 .contact-info a:hover {
   text-decoration: underline;
 }
 .contact-info p {
-  color: #fff;
+  color: #000;
   margin-bottom: 10px;
 }
 .footer p {
@@ -244,7 +244,7 @@ span {
         padding-right: 0;
     }
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .navbar nav ul {
     flex-direction: column;
     gap: 10px;
@@ -293,8 +293,15 @@ span {
 
 }
 
-
-
 </style>
+<div id="notification-container"></div>
+
+<div id="arcana-modal-overlay" class="hidden">
+  <div class="arcana-modal">
+    <span class="close">&times;</span>
+    <p id="arcana-modal-text"></p>
+  </div>
+</div>
+
 </body>
 </html>

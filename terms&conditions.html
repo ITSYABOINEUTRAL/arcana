@@ -102,7 +102,7 @@
                 </div>
             </div>
                 <hr>
-                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+           <p class="copyright">Copyright © <span id="year"></span> Arcana. All rights reserved.</p>
         </div>
 
     </div>
@@ -116,8 +116,8 @@
 
 body {
   font-family: 'Poppins', sans-serif;
-  background-color: #f9f9f9;
-  color: #fff;
+  background-color: #fff;
+  color: #000;
   line-height: 1.6;
 }
 
@@ -133,7 +133,7 @@ header h1 {
   font-size: 2rem;
   margin-top: 40px;
   margin-bottom: 10px;
-  color: #fff;
+  color: #000;
   text-align: center;
 }
 /* Section */
@@ -142,18 +142,18 @@ section {
   margin: 20px auto;
   padding: 20px;
   font-size: 1rem;
-  color: #fff;
+  color: #000;
 }
 
 section h2 {
   font-size: 1.5rem;
   margin-top: 30px;
-  color: #fff;
+  color: #000;
 }
 
 section p {
   margin-top: 10px;
-  color: #fff;
+  color: #000;
 }
 
 .footer p {
@@ -168,7 +168,7 @@ section p {
         padding-right: 0;
     }
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .navbar nav ul {
     flex-direction: column;
     gap: 10px;
@@ -197,6 +197,7 @@ section p {
         padding-right: 0;
     }
 }
+
 @media (max-width: 600px) {
   .navbar nav ul {
     flex-direction: column;
@@ -217,5 +218,13 @@ section p {
 }
 
     </style>
+    <div id="notification-container"></div>
+
+<div id="arcana-modal-overlay" class="hidden">
+  <div class="arcana-modal">
+    <span class="close">&times;</span>
+    <p id="arcana-modal-text"></p>
+  </div>
+</div>
 </body>
 </html>

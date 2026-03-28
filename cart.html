@@ -138,7 +138,7 @@
                 </div>
             </div>
                 <hr>
-                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+           <p class="copyright">Copyright © <span id="year"></span> Arcana. All rights reserved.</p>
         </div>
 
     </div>
@@ -157,6 +157,16 @@
       #cart-container {
        overflow-x: auto;
       }
+      /* Hide scrollbar but keep scrolling */
+#cart-container {
+  scrollbar-width: none;      /* Firefox */
+  -ms-overflow-style: none;   /* IE & Edge */
+}
+
+#cart-container::-webkit-scrollbar {
+  display: none;              /* Chrome, Safari */
+}
+
       #cart-container table {
         width: 100%;
         border-collapse: collapse;
@@ -167,12 +177,12 @@
         font-weight: 700;
       }
       #cart-container table thead td {
-        background: #b7804f;
+        background: #59493b;
         border: none;
         padding: 6px 0;
       }
       #cart-container table td {
-        border: 1px solid #b7804f;
+        border: 1px solid #59493b;
         text-align: center;
       }
       #cart-container table thead td:nth-child(1) {
@@ -194,7 +204,7 @@
         object-fit: cover;
       }
       #cart-container table tbody i {
-        color: #b7804f;
+        color: #59493b;
       }
       #cart-container table tbody button.remove-btn {
         border: none;
@@ -203,7 +213,7 @@
         width: 50%;
         height: 35px;
         padding: 10px;
-        border: 2px solid #b7804f;
+        border: 2px solid #59493b;
         border-radius: 2px;
         margin-bottom: 10px;
       }
@@ -220,7 +230,7 @@
         text-align: right;
       }
       #cart-summary .btn {
-        background-color: #b7804f;
+        background-color: #59493b;
         color: #fff;
         padding: 10px 20px;
         border: none;
@@ -228,16 +238,16 @@
         cursor: pointer;
       }
       #cart-summary .btn:hover {
-        background-color: #f0c9a0;
+        background-color: #8B6A4E;
       }
       .cart-summary {
         margin-top: 20px;
       }
       .cart-summary .coupon>div {
-        border: #b7804f 1px solid;
+        border: #59493b 1px solid;
       }
       .cart-summary .cart-total {
-        border: #b7804f 1px solid;
+        border: #59493b 1px solid;
       }
       .cart-summary .cart-total .btn {
         margin: 0 12px 20px 0;
@@ -246,7 +256,7 @@
       }
       .cart-summary .coupon h5,
       .cart-summary .cart-total h5 {
-        background: #b7804f;
+        background: #59493b;
         border: none;
         padding: 6px 12px;
         font-weight: 700;
@@ -286,5 +296,14 @@
         }
       }
     </style>
+    <div id="notification-container"></div>
+
+<div id="arcana-modal-overlay" class="hidden">
+  <div class="arcana-modal">
+    <span class="close">&times;</span>
+    <p id="arcana-modal-text"></p>
+  </div>
+</div>
+
 </body>
 </html>

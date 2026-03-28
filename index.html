@@ -215,10 +215,22 @@
                 </div>
             </div>
                 <hr>
-                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+                <p class="copyright">Copyright © <span id="year"></span> Arcana. All rights reserved.</p>
         </div>
 
     </div>
     <script src="script.js" defer></script>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+    <div id="notification-container"></div>
+
+<div id="arcana-modal-overlay" class="hidden">
+  <div class="arcana-modal">
+    <span class="close">&times;</span>
+    <p id="arcana-modal-text"></p>
+  </div>
+</div>
+
 </body>
 </html>

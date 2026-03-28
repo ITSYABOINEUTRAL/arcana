@@ -112,7 +112,7 @@
                 </div>
             </div>
                 <hr>
-                <p class="copyright">Copyright © 2025 Arcana. All rights reserved.</p>
+           <p class="copyright">Copyright © <span id="year"></span> Arcana. All rights reserved.</p>
         </div>
 
     </div>
@@ -161,56 +161,95 @@ document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-  const token = localStorage.getItem('token');
   const preOrderBtn = document.querySelector('.btn[data-id]');
-  if (!preOrderBtn || !token) return;
+  if (!preOrderBtn) return;
 
-  try {
-    const userRes = await fetch('https://arcana-backend-z46k.onrender.com/api/auth/profile', {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const user = await userRes.json();
+  let user = null;
+  let shippingFee = null;
 
-    const isNigeria = user.addresses[0]?.country?.toLowerCase().includes("nigeria");
-    const shippingFee = isNigeria ? 3.5 : 20;  // ← make sure this is 5 not 10
-    
+  const token = localStorage.getItem('token');
 
-    preOrderBtn.addEventListener('click', async () => {
-      const userEmail = localStorage.getItem('userEmail');
-      if (!userEmail) {
-        alert('Please log in to continue.');
-        return (window.location.href = 'account.html');
-      }
+  // ✅ Only fetch profile if logged in
+  if (token) {
+    try {
+      const userRes = await fetch(
+        'https://arcana-backend-z46k.onrender.com/api/auth/profile',
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
 
-      const productId = preOrderBtn.dataset.id;
-      const size = document.getElementById('size').value;
-      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+      user = await userRes.json();
 
-      if (!size) {
-        alert('Please select a size.');
-        return;
-      }
+      const isNigeria =
+        user.addresses?.[0]?.country?.toLowerCase().includes("nigeria");
 
-      const hasAddress = Array.isArray(user.addresses) && user.addresses.length > 0;
-      const hasPhone = user.phone && user.phone.trim() !== "";
+      shippingFee = isNigeria ? 3.5 : 20;
+    } catch (err) {
+      console.error("Profile fetch failed:", err);
+    }
+  }
 
-      if (!hasAddress || !hasPhone) {
-        alert("⚠️ Please save your shipping address and phone number before checkout.");
-        localStorage.setItem("returnAfterSettings", window.location.pathname);
-        return (window.location.href = 'edit-settings.html');
-      }
+  // ✅ Listener is ALWAYS attached
+  preOrderBtn.addEventListener('click', async () => {
+    const userEmail = localStorage.getItem('userEmail');
+    const token = localStorage.getItem('token');
 
-      const productRes = await fetch(`https://arcana-backend-z46k.onrender.com/api/products/${productId}`);
-      if (!productRes.ok) throw new Error("Product not found");
-      const product = await productRes.json();
+    // 🔐 LOGIN GUARD
+    if (!token || !userEmail) {
+      showBlockingMessage(
+        "Please log in to continue.",
+        "account.html"
+      );
+      return;
+    }
 
-      const price = product.price;
-      const totalUSD = price * quantity;
-      const finalTotal = totalUSD + shippingFee;
-      const amountInKobo = Math.round(finalTotal * 1547.30 * 100);
-      const reference = `ARC${Date.now()}`;
+    const size = document.getElementById('size').value;
+    const quantity =
+      parseInt(document.getElementById('quantity').value) || 1;
 
-      const orderRes = await fetch('https://arcana-backend-z46k.onrender.com/api/orders', {
+    if (!size) {
+      alert('Please select a size.');
+      return;
+    }
+
+    const hasAddress =
+      Array.isArray(user.addresses) && user.addresses.length > 0;
+    const hasPhone = user.phone && user.phone.trim() !== "";
+
+    // 📦 ADDRESS / PHONE GUARD
+    if (!hasAddress || !hasPhone) {
+      showBlockingMessage(
+        "⚠️ Please save your shipping address and phone number before checkout.",
+        "edit-settings.html"
+      );
+      localStorage.setItem(
+        "returnAfterSettings",
+        window.location.pathname
+      );
+      return;
+    }
+
+    const productId = preOrderBtn.dataset.id;
+
+    const productRes = await fetch(
+      `https://arcana-backend-z46k.onrender.com/api/products/${productId}`
+    );
+
+    if (!productRes.ok) {
+      alert("Product not found");
+      return;
+    }
+
+    const product = await productRes.json();
+
+    const price = product.price;
+    const totalUSD = price * quantity;
+    const finalTotal = totalUSD + shippingFee;
+    const amountInKobo = Math.round(finalTotal * 1547.30 * 100);
+    const reference = `ARC${Date.now()}`;
+
+    await fetch(
+      'https://arcana-backend-z46k.onrender.com/api/orders',
+      {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -231,9 +270,12 @@ document.addEventListener('DOMContentLoaded', async () => {
           shippingFee,
           reference
         })
-      });
+      }
+    );
 
-      const payRes = await fetch('https://arcana-backend-z46k.onrender.com/api/paystack/initialize', {
+    const payRes = await fetch(
+      'https://arcana-backend-z46k.onrender.com/api/paystack/initialize',
+      {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -241,20 +283,27 @@ document.addEventListener('DOMContentLoaded', async () => {
           amount: amountInKobo,
           reference
         })
-      });
-
-      const payData = await payRes.json();
-      if (payData.data && payData.data.authorization_url) {
-        window.location.href = payData.data.authorization_url;
-      } else {
-        alert("Payment initialization failed.");
       }
-    });
-  } catch (err) {
-    console.error("Pre-order error:", err);
-    alert("Something went wrong. Please try again.");
-  }
+    );
+
+    const payData = await payRes.json();
+
+    if (payData.data?.authorization_url) {
+      window.location.href = payData.data.authorization_url;
+    } else {
+      alert("Payment initialization failed.");
+    }
+  });
 });
 </script>
+<div id="notification-container"></div>
+
+<div id="arcana-modal-overlay" class="hidden">
+  <div class="arcana-modal">
+    <span class="close">&times;</span>
+    <p id="arcana-modal-text"></p>
+  </div>
+</div>
+
 </body>
 </html>
